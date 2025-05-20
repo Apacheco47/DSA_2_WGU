@@ -1,8 +1,8 @@
 class Truck:
-    def __init__(self,id , capacity, location, departureTime, deliveryTime, mileage):
+    def __init__(self,id , location, departureTime, deliveryTime, mileage):
         self.id = id
         self.packages = set()
-        self.capacity = capacity
+        self.capacity = 16
         self.location = location
         self.departureTime = departureTime
         self.deliveryTime = deliveryTime
