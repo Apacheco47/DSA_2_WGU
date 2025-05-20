@@ -1,17 +1,20 @@
 # Package class
+class Package:
+    def __init__(self, p_id, delivery_address, deadline, city, zip_code, weight):
+        self.p_id = p_id
+        self.delivery_address = delivery_address
+        self.deadline = deadline
+        self.city = city
+        self.zip_code = zip_code
+        self.weight = weight
+        self.status = "At Hub"
+        self.deliveryTime = None
 
-# delivery address
+    def __str__(self):
+        return f"Package ID: {self.p_id}, {self.delivery_address}, {self.deadline}, {self.city}, {self.zip_code}, {self.weight}, {self.status}"
 
-#   delivery deadline
-
-#  delivery city
-
-#  delivery zip code
-
-#  package weight
-
-#  delivery status (i.e., at the hub, en route, or delivered),
-
-#  including the delivery time
-
+    def set_status(self,status):
+        self.status = status
+        print("Status Updated")
+        return
 
