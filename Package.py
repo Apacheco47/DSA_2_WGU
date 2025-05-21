@@ -11,7 +11,7 @@ class Package:
         self.deliveryTime = None
 
     def __str__(self):
-        return f"Package ID: {self.p_id}, {self.delivery_address}, {self.deadline}, {self.city}, {self.zip_code}, {self.weight}, {self.status}"
+        return "%s, %s, %s, %s, %s, %s, %s, %s" % (self.p_id, self.delivery_address, self.deadline, self.city, self.zip_code, self.weight, self.status, self.deliveryTime)
 
     def set_status(self,status):
         self.status = status

@@ -1,13 +1,14 @@
 class Truck:
-    def __init__(self,id , location, departureTime, deliveryTime, mileage):
-        self.id = id
-        self.packages = set()
+    def __init__(self, truck_id, packages, location, departure_time, return_time, mileage):
+        self.truck_id = truck_id
+        self.packages = packages
         self.capacity = 16
         self.location = location
-        self.departureTime = departureTime
-        self.deliveryTime = deliveryTime
+        self.departureTime = departure_time
+        self.deliveryTime = return_time
         self.mileage = mileage
 
     def __str__(self):
-        return f"Truck ID = {self.id} , Packages = {self.packages},Capacity = {self.capacity}, Location = {self.location}, Departure Time = {self.departureTime}, Delivery Time = {self.deliveryTime}, Mileaege = {self.mileage}"
+        return "%s,%s,%s,%s,%s,%s,%s" % (self.truck_id ,self.packages,self.capacity, self.location, self.departureTime, self.deliveryTime, self.mileage)
+
 
