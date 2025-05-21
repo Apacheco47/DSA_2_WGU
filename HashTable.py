@@ -1,5 +1,7 @@
 #HASH TABLE CLASS
 import csv
+from email.utils import UEMPTYSTRING
+
 import Package
 
 
@@ -24,17 +26,18 @@ class CreateHashTable:
         bucket_list.append(key_value)
         return True
 
-#Search and print element in hash table if found
+#Search and return element in hash table if found
     def find(self,key):
         bucket = hash(key) % len(self.table)
         bucket_list = self.table[bucket]
 
         for kv_pair in bucket_list:
             if key == kv_pair[0]:
-                #print("Item Located at index: " + str(bucket) + " with value: " + str(kv_pair[1]))
+                #print("Item found: ")
                 return kv_pair[1]
         else: print("Item not found")
-        return None
+        return UEMPTYSTRING
+
 
 
 #Delete element from hash table if found

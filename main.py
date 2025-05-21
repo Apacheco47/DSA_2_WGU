@@ -82,18 +82,50 @@ add_packages(Truck3, 28, package_hash)
 add_packages(Truck3, 32, package_hash)
 add_packages(Truck3, 33, package_hash)
 
-print(Truck1)
-print(Truck2)
-print(Truck3)
-
 #NEAREST NEIGHBOR DELIVERY ALGORITHM
 
 
 
 
 #MAIN USER GUI
+# Provide an intuitive interface for the user to view the delivery status of all packages at any time
+# the total mileage traveled by all trucks
+class main:
+    while True:
+        print("*************************************** WGU - Postal Service ***************************************")
+        print("                                      Package Tracking System")
+        print("Options: ")
+        print("1. View Individual Package Status")
+        print("2. View Total Miles Traveled")
+        print("3. View Status of All Packages")
+        print("Input 0 to Exit")
+        print("*****************************************************************************************************")
+        usr_input = input("Enter Selection: ")
 
+        if usr_input == "0":
+            print("Thank you for using the Package Tracking System, Goodbye!")
+            break
+        elif usr_input == "1":
+            if usr_input != "0":
+                print("*************************************** WGU - Postal Service ***************************************")
+                print("                                      Package Tracking System")
+                print("                                 >>Input package ID to view status<<")
+                print("Input 0 to Exit")
+                print("*****************************************************************************************************")
+                usr_input = input("Enter Package ID: ")
+                lookup = package_hash.find(int(usr_input))
+                print(lookup)
 
+            if usr_input == "0":
+                print("Returning to Main Menu")
+                continue
+        elif usr_input == "2":
+            print("Total Miles Traveled: " + str(Truck1.mileage + Truck2.mileage + Truck3.mileage))
+        elif usr_input == "3":
+            print("Status of All Packages: ")
+        else:
+            print("Invalid Selection, please try again.")
+            continue
 
 
 
@@ -103,7 +135,7 @@ print(Truck3)
 
 
 #-------------------------Testing-----------------------------------------------
-print("Testing")
+#print("Testing")
 '''
 sample = CreateHashTable()
 pack1 = Package.Package(1, "1301 pens", 5, 6, 64554, 5)
