@@ -1,5 +1,5 @@
 # Albert Pacheco
-#Student id:011151730
+#Student ID:011151730
 # DSA_2_WGUPS Routing Program
 
 import csv
@@ -34,11 +34,11 @@ Truck1 = Truck.Truck(1,[],"4001 South 700 East", datetime.time(hour=8, minute=00
 Truck2 = Truck.Truck(2, [], "4001 South 700 East", datetime.time(hour=9, minute=5),datetime.time(hour=00, minute=00), 0)
 #EOD DEADLINE
 Truck3 =Truck.Truck(3,[] ,"4001 South 700 East", datetime.time(hour=10, minute=20),datetime.time(hour=00, minute=00), 0)
-
+#Method to add packages to each truck
 def add_packages(truck, p_id, package_table):
     if package_table.find(p_id):
         truck.packages.append(p_id)
-
+#Load packages to Truck 1
 add_packages(Truck1, 1, package_hash)
 add_packages(Truck1, 13, package_hash)
 add_packages(Truck1, 14, package_hash)
@@ -51,7 +51,7 @@ add_packages(Truck1, 31, package_hash)
 add_packages(Truck1, 34, package_hash)
 add_packages(Truck1, 37, package_hash)
 add_packages(Truck1, 40, package_hash)
-
+#Load packages to Truck 2
 add_packages(Truck2, 3, package_hash)
 add_packages(Truck2, 6, package_hash)
 add_packages(Truck2, 12, package_hash)
@@ -68,7 +68,7 @@ add_packages(Truck2, 35, package_hash)
 add_packages(Truck2, 36, package_hash)
 add_packages(Truck2, 38, package_hash)
 add_packages(Truck2, 39, package_hash)
-
+#Load packages to Truck 3
 add_packages(Truck3, 2, package_hash)
 add_packages(Truck3, 4, package_hash)
 add_packages(Truck3, 5, package_hash)
@@ -81,8 +81,10 @@ add_packages(Truck3, 25, package_hash)
 add_packages(Truck3, 28, package_hash)
 add_packages(Truck3, 32, package_hash)
 add_packages(Truck3, 33, package_hash)
-
 #NEAREST NEIGHBOR DELIVERY ALGORITHM
+
+
+
 
 
 
@@ -90,7 +92,7 @@ add_packages(Truck3, 33, package_hash)
 #MAIN USER GUI
 # Provide an intuitive interface for the user to view the delivery status of all packages at any time
 # the total mileage traveled by all trucks
-class main:
+class Main:
     while True:
         print("*************************************** WGU - Postal Service ***************************************")
         print("                                      Package Tracking System")
@@ -106,21 +108,33 @@ class main:
             print("Thank you for using the Package Tracking System, Goodbye!")
             break
         elif usr_input == "1":
-            if usr_input != "0":
+            while usr_input != "0":
                 print("*************************************** WGU - Postal Service ***************************************")
                 print("                                      Package Tracking System")
                 print("                                 >>Input package ID to view status<<")
-                print("Input 0 to Exit")
+                print()
+                print()
+                print()
+                print("Input 0 to Return to Main Menu")
                 print("*****************************************************************************************************")
-                usr_input = input("Enter Package ID: ")
-                lookup = package_hash.find(int(usr_input))
-                print(lookup)
+                id_input = input("Enter Package ID: ")
+                if id_input == "0":
+                    print("Returning to Main Menu.")
+                    break
+                elif id_input.isnumeric():
+                    lookup = package_hash.find(int(id_input))
+                    print("ID | Delivery Address | City | Zip Code | Delivery Deadline | weight | Status | Delivery Time")
+                    print(lookup)
+                    pause = input("Press Enter to Continue.")
+                    continue
+                else:
+                    print("Invalid Selection, please try again.")
+                    continue
 
-            if usr_input == "0":
-                print("Returning to Main Menu")
-                continue
+
         elif usr_input == "2":
             print("Total Miles Traveled: " + str(Truck1.mileage + Truck2.mileage + Truck3.mileage))
+            print("Returning to Main Menu.")
         elif usr_input == "3":
             print("Status of All Packages: ")
         else:
@@ -151,7 +165,6 @@ sample.find(32)
 sample.delete(5)
 sample.delete(32)
 t1 = Truck.Truck(1, "1301 pens", 5, 6, 64)
-
 print_line(pack1)
 print_line(t1)
 print_line(sample.table)
