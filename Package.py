@@ -1,4 +1,6 @@
 # Package class
+import datetime
+
 class Package:
     def __init__(self, p_id, delivery_address, deadline, city, zip_code, weight):
         self.p_id = p_id
@@ -15,6 +17,20 @@ class Package:
 
     def set_status(self,status):
         self.status = status
-        print("Status Updated")
+        #print("Status Updated")
         return
+
+    def set_delivery_time(self, time_input):
+        self.deliveryTime = time_input
+
+    def update_packages(self, time_input):
+        time = self.deliveryTime
+        if time > time_input:
+            self.set_status("In Transit")
+        elif time <= time_input:
+            self.set_status("Delivered")
+        else:
+            self.set_status("At Hub")
+
+
 

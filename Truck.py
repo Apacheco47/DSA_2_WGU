@@ -1,11 +1,11 @@
 class Truck:
-    def __init__(self, truck_id, packages, location, departure_time, return_time, mileage):
+    def __init__(self, truck_id, packages, location, departure_time, deliveryTime, mileage):
         self.truck_id = truck_id
         self.packages = packages
         self.capacity = 16
         self.location = location
         self.departureTime = departure_time
-        self.deliveryTime = return_time
+        self.deliveryTime = deliveryTime
         self.mileage = mileage
 
     def __str__(self):
