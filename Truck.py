@@ -12,3 +12,7 @@ class Truck:
         return "%s,%s,%s,%s,%s,%s,%s" % (self.truck_id ,self.packages,self.capacity, self.location, self.departureTime, self.deliveryTime, self.mileage)
 
 
+    def remove_package(self, p_id):
+        if p_id in self.packages:
+            self.packages.remove(p_id)
+

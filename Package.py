@@ -11,9 +11,10 @@ class Package:
         self.weight = weight
         self.status = "At Hub"
         self.deliveryTime = None
+        self.delivery_truck = None
 
     def __str__(self):
-        return "%s, %s, %s, %s, %s, %s, %s, %s" % (self.p_id, self.delivery_address, self.deadline, self.city, self.zip_code, self.weight, self.status, self.deliveryTime)
+        return "%s, %s, %s, %s, %s, %s, %s,%s ,%s" % (self.p_id, self.delivery_address, self.deadline, self.city, self.zip_code, self.weight, self.status, self.deliveryTime, self.delivery_truck)
 
     def set_status(self,status):
         self.status = status

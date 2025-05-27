@@ -16,15 +16,7 @@ with open ('CSV/Distances.csv') as file_1:
 with open ('CSV/Addresses.csv') as file_2:
     addresses_csv = csv.reader(file_2, delimiter = ',')
     addresses_csv = list(addresses_csv)
-'''''''''
-#2D LIST FOR DISTANCES
-distances = [[]]
-for row in distances_csv:
-    distances.append(row)
-for i in range(len(distances)):
-    if i == str and i != '':
-        distances[i] = [float(x) for x in distances[i]]
-'''''''''
+
 #2D LIST FOR ADDRESSES
 addresses = [[]]
 for row in addresses_csv:
@@ -40,10 +32,13 @@ def distance_between(x_coordinate, y_coordinate):
 #ADDRESS EXTRACTION
 def get_address_id(address):
     for i in range(len(addresses_csv)):
+        while addresses_csv[i][2] != str(address):
+            i += 1
         if addresses_csv[i][2] == str(address):
-            address_id = addresses_csv[i][i]
+            address_id = addresses_csv[i][0]
             return int(address_id)
-        return None
+        else:
+            return "Address ID not found"
     return None
 
 
@@ -69,6 +64,7 @@ add_packages(Truck1, 13, package_hash)
 add_packages(Truck1, 14, package_hash)
 add_packages(Truck1, 15, package_hash)
 add_packages(Truck1, 16, package_hash)
+add_packages(Truck2, 19, package_hash)
 add_packages(Truck1, 20, package_hash)
 add_packages(Truck1, 29, package_hash)
 add_packages(Truck1, 30, package_hash)
@@ -82,7 +78,6 @@ add_packages(Truck2, 6, package_hash)
 add_packages(Truck2, 12, package_hash)
 add_packages(Truck2, 17, package_hash)
 add_packages(Truck2, 18, package_hash)
-add_packages(Truck2, 19, package_hash)
 add_packages(Truck2, 21, package_hash)
 add_packages(Truck2, 22, package_hash)
 add_packages(Truck2, 23, package_hash)
@@ -107,29 +102,73 @@ add_packages(Truck3, 28, package_hash)
 add_packages(Truck3, 32, package_hash)
 add_packages(Truck3, 33, package_hash)
 
-#NEAREST NEIGHBOR DELIVERY ALGORITHM
-def nearest_neighbor_delivery(truck):
-    for delivery in range(len(truck.packages)):
-        current_location = truck.location
-        current_location_id = get_address_id(current_location)
-        current_package = package_hash.find(truck.packages[delivery])
-        current_package_address_id = get_address_id(current_package.delivery_address)
-        distance = distance_between(0, 5)
+#NEAREST NEIGHBOR DELIVERY ALGORITHM RETURNS ROUTE
+def nearest_neighbor_route(truck):
+    #GET CURRENT LOCATION ID AND ADDRESS
+    undelivered_packages = truck.packages.copy()
+    route = []
+    current_location = truck.location
+    current_location_id = get_address_id(current_location)
+    #ORDER PACKAGES CLOSEST TO CURRENT LOCATION
+    while undelivered_packages:
+        closest_package = None
+        closest_package_address_id = None
+        min_distance = float('inf')
+        for p_id in undelivered_packages :
+            package = package_hash.find(p_id)
+            package_address_id = get_address_id(package.delivery_address)
+            dist = distance_between(int(current_location_id), int(package_address_id))
+            if dist < min_distance:
+                min_distance = dist
+                closest_package = p_id
+                closest_package_address_id = package_address_id
+
+        route.append(closest_package)
+        undelivered_packages.remove(closest_package)
+        current_location_id = closest_package_address_id
+    #print(route)
+    return route
+
+def delivery(truck, route):
+#GET CURRENT PACKAGE ID AND ADDRESS
+    current_location_id = get_address_id(truck.location)
+    current_time = truck.departureTime
+
+    for p_id in route:
+        current_package = package_hash.find(p_id)
+        delivery_address = current_package.delivery_address
+        current_package_address_id = get_address_id(delivery_address)
+#GET DISTANCE BETWEEN CURRENT LOCATION AND PACKAGE ADDRESS
+        distance = distance_between(int(current_location_id), int(current_package_address_id))
         truck.mileage += distance
-        truck.location = current_package.delivery_address
-        truck.deliveryTime = truck.departureTime + datetime.timedelta(hours = distance/18)
-#Update package delivery time
-        current_package.set_delivery_time(truck.deliveryTime)
-#UPDATE PACKAGE DELIVERY TIME
+ # UPDATE PACKAGE DELIVERY TIME
+        travel_time = datetime.timedelta(hours = distance/18)
+        current_time += travel_time
+#UPDATE TRUCK INFO
+        truck.location = delivery_address
+        truck.deliveryTime = current_time
+        current_package.deliveryTime = current_time
+        current_package.delivery_truck = ("Truck " + str(truck.truck_id))
+
+        current_location_id = current_package_address_id
+        truck.remove_package(p_id)
+    #RETURN TO HUB
+    hub_id = get_address_id("4001 South 700 East")
+    return_trip = distance_between(int(current_location_id), int(hub_id))
+    truck.mileage += return_trip
+    truck.location = "AT HUB EOD"
 
 
+    #print(truck.packages)
+    print("Truck " + str(truck.truck_id) + " has delivered all packages!")
 
-
-
+#GET ROUTES
 #DELIVER PACKAGES
-nearest_neighbor_delivery(Truck1)
-nearest_neighbor_delivery(Truck2)
-nearest_neighbor_delivery(Truck3)
+
+delivery(Truck1, nearest_neighbor_route(Truck1))
+delivery(Truck2, nearest_neighbor_route(Truck2))
+if Truck1.location == "AT HUB EOD":
+    delivery(Truck3, nearest_neighbor_route(Truck3))
 
 
 
@@ -169,7 +208,7 @@ class Main:
                     break
                 elif id_input.isnumeric():
                     lookup = package_hash.find(int(id_input))
-                    print("ID | Delivery Address | City | Zip Code | Delivery Deadline | weight | Status | Delivery Time")
+                    print("ID | Delivery Address | City | Zip Code | Delivery Deadline | weight | Status | Delivery Time | Delivery Truck")
                     print(lookup)
                     pause = input("Press Enter to Continue.")
                     continue
@@ -187,7 +226,7 @@ class Main:
             (H,M) = usr_time.split(":")
             time_check = datetime.timedelta(hours = int(H), minutes = int(M))
             print("Status of All Packages: ")
-            print("ID | Delivery Address | City | Zip Code | Delivery Deadline | weight | Status | Delivery Time")
+            print("ID | Delivery Address | City | Zip Code | Delivery Deadline | weight | Status | Delivery Time | Delivery Truck")
             for i in range(1,41):
                 lookup = package_hash.find(i)
                 if lookup.p_id == 9 and time_check < datetime.timedelta(hours = 10, minutes = 20):
