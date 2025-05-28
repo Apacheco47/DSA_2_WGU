@@ -205,8 +205,18 @@ class Main:
                     print("Returning to Return to the Main Menu.")
                     break
                 elif id_input.isnumeric():
-                    lookup = package_hash.find(int(id_input))
+                    print("PLease Enter a time to view the status of a package at that time.")
+                    usr_time = input("Enter Time in HH:MM format: ")
+                    (H, M) = usr_time.split(":")
+                    time_check = datetime.timedelta(hours=int(H), minutes=int(M))
+                    print("Status of Package: " + str(id_input))
                     print("ID | Delivery Address | City | Zip Code | Delivery Deadline | weight | Status | Delivery Time | Delivery Truck")
+                    lookup = package_hash.find(int(id_input))
+                    if lookup.p_id == 9 and (time_check < datetime.timedelta(hours=10, minutes=20)):
+                        package_hash.find(9).set_status("Delayed")
+                    else:
+                        lookup.update_packages(time_check)
+
                     print(lookup)
                     pause = input("Press Enter to Continue.")
                     continue
