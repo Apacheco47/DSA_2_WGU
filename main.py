@@ -6,7 +6,6 @@ import csv
 import datetime
 import HashTable
 import Truck
-from Package import Package
 from HashTable import CreateHashTable
 
 #READ CSV DATA
@@ -109,7 +108,7 @@ def nearest_neighbor_route(truck):
     route = []
     current_location = truck.location
     current_location_id = get_address_id(current_location)
-    #ORDER PACKAGES CLOSEST TO CURRENT LOCATION
+    #ORDER PACKAGES BY DISTANCE FROM CURRENT LOCATION
     while undelivered_packages:
         closest_package = None
         closest_package_address_id = None
@@ -129,6 +128,7 @@ def nearest_neighbor_route(truck):
     #print(route)
     return route
 
+#METHOD TO DELIVER PACKAGES AND UPDATE TRUCK INFO
 def delivery(truck, route):
 #GET CURRENT PACKAGE ID AND ADDRESS
     current_location_id = get_address_id(truck.location)
@@ -162,9 +162,7 @@ def delivery(truck, route):
     #print(truck.packages)
     print("Truck " + str(truck.truck_id) + " has delivered all packages!")
 
-#GET ROUTES
 #DELIVER PACKAGES
-
 delivery(Truck1, nearest_neighbor_route(Truck1))
 delivery(Truck2, nearest_neighbor_route(Truck2))
 if Truck1.location == "AT HUB EOD":

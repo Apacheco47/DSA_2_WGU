@@ -1,3 +1,4 @@
+#TRUCK CLASS
 class Truck:
     def __init__(self, truck_id, packages, location, departure_time, deliveryTime, mileage):
         self.truck_id = truck_id
@@ -7,11 +8,11 @@ class Truck:
         self.departureTime = departure_time
         self.deliveryTime = deliveryTime
         self.mileage = mileage
-
+#RETURN TRUCK INFO
     def __str__(self):
         return "%s,%s,%s,%s,%s,%s,%s" % (self.truck_id ,self.packages,self.capacity, self.location, self.departureTime, self.deliveryTime, self.mileage)
 
-
+#REMOVE PACKAGE
     def remove_package(self, p_id):
         if p_id in self.packages:
             self.packages.remove(p_id)

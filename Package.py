@@ -1,4 +1,4 @@
-# Package class
+# PACKAGE CLASS
 import datetime
 
 class Package:
@@ -12,18 +12,18 @@ class Package:
         self.status = "At Hub"
         self.deliveryTime = None
         self.delivery_truck = None
-
+#RETURN PACKAGE INFORMATION
     def __str__(self):
         return "%s, %s, %s, %s, %s, %s, %s,%s ,%s" % (self.p_id, self.delivery_address, self.deadline, self.city, self.zip_code, self.weight, self.status, self.deliveryTime, self.delivery_truck)
-
+#SET PACKAGE STATUS
     def set_status(self,status):
         self.status = status
         #print("Status Updated")
         return
-
+#SET DELIVERY TIME
     def set_delivery_time(self, time_input):
         self.deliveryTime = time_input
-
+#UPDATE PACKAGE STATUS
     def update_packages(self, time_input):
         time = self.deliveryTime
         if time > time_input:
