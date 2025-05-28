@@ -214,7 +214,10 @@ class Main:
                     lookup = package_hash.find(int(id_input))
                     if lookup.p_id == 9 and (time_check < datetime.timedelta(hours=10, minutes=20)):
                         package_hash.find(9).set_status("Delayed")
+                        package_hash.find(9).delivery_address = "300 State St"
+
                     else:
+                        package_hash.find(9).delivery_address = "410 S. State St."
                         lookup.update_packages(time_check)
 
                     print(lookup)
@@ -239,9 +242,11 @@ class Main:
                 lookup = package_hash.find(i)
                 if lookup.p_id == 9 and time_check < datetime.timedelta(hours = 10, minutes = 20):
                     package_hash.find(9).set_status("Delayed")
+                    package_hash.find(9).delivery_address = "300 State St"
                     print(lookup)
                 else:
                     lookup.update_packages(time_check)
+                    package_hash.find(9).delivery_address = "410 S. State St."
                     print(lookup)
             menu = input("Press Enter to Continue.")
         else:
