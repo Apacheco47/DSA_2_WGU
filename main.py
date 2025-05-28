@@ -48,11 +48,11 @@ HashTable.load_packages("CSV/Packages.csv", package_hash)
 
 #CREATE 3 TRUCKS ID, PACKAGES, LOCATION, DEPARTURE TIME, RETURN TIME, MILEAGE
 #9:00 AM DEADLINE
-Truck1 = Truck.Truck(1,[],"4001 South 700 East", datetime.timedelta(hours = 8, minutes =00), datetime.timedelta(hours = 23, minutes = 00),0)
+Truck1 = Truck.Truck(1,[],"4001 South 700 East", datetime.timedelta(hours = 8, minutes =00), None,0)
 #10:30 AM DEADLINE
-Truck2 = Truck.Truck(2, [], "4001 South 700 East", datetime.timedelta(hours = 9, minutes = 5),datetime.timedelta(hours = 23, minutes = 00), 0)
+Truck2 = Truck.Truck(2, [], "4001 South 700 East", datetime.timedelta(hours = 9, minutes = 5),None, 0)
 #EOD DEADLINE
-Truck3 =Truck.Truck(3,[] ,"4001 South 700 East", datetime.timedelta(hours = 10, minutes = 20),datetime.timedelta(hours = 23, minutes =00), 0)
+Truck3 =Truck.Truck(3,[] ,"4001 South 700 East", datetime.timedelta(hours = 10, minutes = 20),None, 0)
 #Method to add packages to each truck
 def add_packages(truck, p_id, package_table):
     if package_table.find(p_id):
@@ -210,7 +210,7 @@ class Main:
                     (H, M) = usr_time.split(":")
                     time_check = datetime.timedelta(hours=int(H), minutes=int(M))
                     print("Status of Package: " + str(id_input))
-                    print("ID | Delivery Address | City | Zip Code | Delivery Deadline | weight | Status | Delivery Time | Delivery Truck")
+                    print("ID | Delivery Address | City | Zip Code | Delivery Deadline | weight | Status | Delivery Time/ETA | Delivery Truck")
                     lookup = package_hash.find(int(id_input))
                     if lookup.p_id == 9 and (time_check < datetime.timedelta(hours=10, minutes=20)):
                         package_hash.find(9).set_status("Delayed")
@@ -229,6 +229,9 @@ class Main:
 
 
         elif usr_input == "2":
+            print("Truck 1 Miles Traveled: " + str(Truck1.mileage))
+            print("Truck 2 Miles Traveled: " + str(Truck2.mileage))
+            print("Truck 3 Miles Traveled: " + str(Truck3.mileage))
             print("Total Miles Traveled: " + str(Truck1.mileage + Truck2.mileage + Truck3.mileage))
             menu = input("Press Enter to Return to the Main Menu.")
         elif usr_input == "3":
@@ -237,7 +240,7 @@ class Main:
             (H,M) = usr_time.split(":")
             time_check = datetime.timedelta(hours = int(H), minutes = int(M))
             print("Status of All Packages: ")
-            print("ID | Delivery Address | City | Zip Code | Delivery Deadline | weight | Status | Delivery Time | Delivery Truck")
+            print("ID | Delivery Address | City | Zip Code | Delivery Deadline | weight | Status | Delivery Time/ETA | Delivery Truck")
             for i in range(1,41):
                 lookup = package_hash.find(i)
                 if lookup.p_id == 9 and time_check < datetime.timedelta(hours = 10, minutes = 20):
